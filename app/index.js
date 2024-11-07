@@ -56,10 +56,15 @@ export default function Index() {
       <View style={{ flex: 5 }}>
         <Text> this will list the nearby restaurants </Text>
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", width: "100%" }}>
         <Link href="/restaurantList" asChild>
           <Pressable>
-            <Text>a list of the restaurants</Text>
+            <Text>A list of the restaurants</Text>
+          </Pressable>
+        </Link>
+        <Link href="/profilePage" asChild>
+          <Pressable>
+            <Text>Profile page</Text>
           </Pressable>
         </Link>
       </View>
