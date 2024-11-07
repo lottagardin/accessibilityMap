@@ -1,15 +1,14 @@
-import { Text, View, StyleSheet } from "react-native";
-
-
+import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Link } from 'expo-router';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useState, useEffect } from 'react';
 
 
+
 export default function Index() {
 
-  const [sijainti, setSijainti] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -18,13 +17,13 @@ export default function Index() {
         Alert.alert('Ei lupaa käyttää sijaintia')
         return;
       }
-      let sijainti = await Location.getCurrentPositionAsync({});
-      setSijainti(sijainti);
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
     })();
   }, []);
 
 
-  if (!sijainti) {
+  if (!location) {
     return (
       <View style={styles.container}>
         <Text>Loading...</Text>
@@ -34,24 +33,37 @@ export default function Index() {
 
 
   return (
-    <MapView
-      style={{ width: '100%', height: '100%' }}
-      initialRegion={{
-        latitude: sijainti.coords.latitude,
-        longitude: sijainti.coords.longitude,
-        latitudeDelta: 0.0322,
-        longitudeDelta: 0.0221,
-      }}
-    >
-      <Marker
-        followsUserLocation={true}
-        coordinate={{
-          latitude: sijainti.coords.latitude,
-          longitude: sijainti.coords.longitude
+    <View style={styles.container}>
+
+      <MapView
+        style={{ width: '100%', height: '55%' }}
+        initialRegion={{
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0322,
+          longitudeDelta: 0.0221,
         }}
-        title='teiikäläinen'
-      />
-    </MapView>
+      >
+        <Marker
+          followsUserLocation={true}
+          coordinate={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          }}
+          title='teiikäläinen'
+        />
+      </MapView>
+      <View style={{ flex: 5 }}>
+        <Text> this will list the nearby restaurants </Text>
+      </View>
+      <View style={{ flex: 1 }}>
+        <Link href="/restaurantList" asChild>
+          <Pressable>
+            <Text>a list of the restaurants</Text>
+          </Pressable>
+        </Link>
+      </View>
+    </View>
   );
 }
 
@@ -60,6 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 100,
   },
 });
