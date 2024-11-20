@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyC3ZgozDqDYmks5MpawmwnMcQOJxFNAADw",
     authDomain: "saavutettavuuskartta.firebaseapp.com",

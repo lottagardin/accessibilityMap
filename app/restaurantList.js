@@ -14,7 +14,7 @@ export default function RavintolaListaus() {
         <View style={styles.container}>
             <View style={{ flex: 11 }}>
                 <Text>This will have the list of the restaurants.</Text>
-                <Text>This page will also have a button where you can add restaurants (but you have to be a logged in admin to do that)</Text>
+                <Text>If you're logged in as admin, you can add restaurants here</Text>
             </View>
             <View style={{ flex: 1 }}>
                 <Link href="/" asChild>
