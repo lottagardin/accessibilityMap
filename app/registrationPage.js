@@ -1,13 +1,15 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { View, TextInput, Button } from "react-native-web";
+import { View, TextInput, Button, Text } from "react-native";
 import { StyleSheet } from "react-native";
+import { useState } from "react";
 
 
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const [user, setUser] = useState(null);
 
 export default function Registration() {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [user, setUser] = useState(null);
 
     const register = () => {
         const auth = getAuth();
@@ -20,9 +22,7 @@ export default function Registration() {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode);
-                return (
-                    Alert.alert(errorMessage)
-                )
+                Alert.alert(errorMessage);
             });
 
     }
@@ -33,13 +33,15 @@ export default function Registration() {
                 <Text>Email:</Text>
                 <TextInput
                     onChangeText={text => setEmail(text)}
-                    value={email} />
+                    value={email}
+                />
             </View>
             <View style={styles.input}>
                 <Text>Password:</Text>
                 <TextInput
                     onChangeText={text => setPassword(text)}
-                    value={password} />
+                    value={password}
+                />
             </View>
             <Button onPress={register} title="Register user" />
         </View>
@@ -56,13 +58,13 @@ const styles = StyleSheet.create({
         paddingTop: 100,
     },
     input: {
-        flexDirection: "row",
+        flexDirection: 'row',
         height: 40,
         margin: 12,
         width: 200,
         borderWidth: 1,
         padding: 10,
-        marginTop: 200
+        marginTop: 200,
     }
 });
 

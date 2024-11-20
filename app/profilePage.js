@@ -1,30 +1,40 @@
-import { Text, View, StyleSheet, TextInput, FlatList, Pressable } from "react-native";
-
+import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Link } from "expo-router";
+import { AuthProvider } from "../components/authProvider";
+
 
 
 
 export default function ProfilePage() {
 
+    const user = AuthProvider();
 
-
-    return (
-        <View style={styles.container}>
-            <View style={{ flex: 11, justifyContent: "space-evenly" }}>
-                <Text>If the user is logged in, this will have the user's profile picture and username, favorited restaurants and a link to their ratings
-                </Text>
-                <Text>If the user is not logged in, this will take them to the login page where they can either log in or create a new user</Text>
+    if (user) {
+        return (
+            <Text>{user.email}</Text>
+        )
+    }
+    else {
+        return (
+            <View style={styles.container}>
+                <Text>Log in or sign up to see your profile.</Text>
+                <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", width: "100%" }}>
+                    <Link href="/signInPage" asChild>
+                        <Pressable>
+                            <Text>Sign In</Text>
+                        </Pressable>
+                    </Link>
+                    <Link href="/registrationPage" asChild>
+                        <Pressable>
+                            <Text>Register User</Text>
+                        </Pressable>
+                    </Link>
+                </View>
             </View>
-            <View style={{ flex: 1 }}>
-                <Link href="/" asChild>
-                    <Pressable>
-                        <Text>Back to the map</Text>
-                    </Pressable>
-                </Link>
-            </View>
-        </View>
+        )
+    }
 
-    )
+
 }
 
 const styles = StyleSheet.create({

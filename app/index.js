@@ -34,7 +34,6 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-
       <MapView
         style={{ width: '100%', height: '55%' }}
         initialRegion={{
@@ -53,6 +52,8 @@ export default function Index() {
           title='teiikäläinen'
         />
       </MapView>
+
+
       <View style={{ flex: 5 }}>
         <Text> this will list the nearby restaurants </Text>
       </View>
@@ -81,3 +82,4 @@ const styles = StyleSheet.create({
     paddingTop: 100,
   }
 });
+
