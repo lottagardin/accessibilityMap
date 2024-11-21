@@ -11,7 +11,28 @@ export default function ProfilePage() {
 
     if (user) {
         return (
-            <Text>{user.email}</Text>
+            <View style={styles.container}>
+                <View style={{ flex: 11 }}>
+                    <Text>Email: </Text>
+                    <Text>{user.email}</Text>
+                </View>
+
+
+
+                <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", width: "100%" }}>
+                    <Link href="/" asChild>
+                        <Pressable>
+                            <Text>Map</Text>
+                        </Pressable>
+                    </Link>
+                    <Link href="/restaurantList" asChild>
+                        <Pressable>
+                            <Text>A list of the restaurants</Text>
+                        </Pressable>
+                    </Link>
+                </View>
+            </View>
+
         )
     }
     else {

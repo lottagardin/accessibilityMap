@@ -2,7 +2,8 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { View, TextInput, Button, Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { useState } from "react";
-
+import { Alert } from "react-native";
+import { router } from "expo-router";
 
 
 export default function Registration() {
@@ -17,6 +18,8 @@ export default function Registration() {
             .then((userCredential) => {
                 const CurrentUser = userCredential.user;
                 setUser(CurrentUser);
+                Alert.alert("sign-in successful");
+                router.replace('/profilePage')
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -56,7 +59,6 @@ const styles = StyleSheet.create({
         paddingTop: 100,
     },
     input: {
-        flexDirection: "row",
         height: 40,
         margin: 12,
         width: 200,

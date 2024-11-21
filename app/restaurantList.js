@@ -13,13 +13,23 @@ export default function RavintolaListaus() {
     return (
         <View style={styles.container}>
             <View style={{ flex: 11 }}>
+                <Link href="/addRestaurant" asChild>
+                    <Pressable>
+                        <Text>Add a restaurant to the list</Text>
+                    </Pressable>
+                </Link>
                 <Text>This will have the list of the restaurants.</Text>
                 <Text>If you're logged in as admin, you can add restaurants here</Text>
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", width: "100%" }}>
                 <Link href="/" asChild>
                     <Pressable>
-                        <Text>Back to the map</Text>
+                        <Text>Map</Text>
+                    </Pressable>
+                </Link>
+                <Link href="/profilePage" asChild>
+                    <Pressable>
+                        <Text>Profile page</Text>
                     </Pressable>
                 </Link>
             </View>
