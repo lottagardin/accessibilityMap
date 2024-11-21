@@ -1,14 +1,31 @@
 import { Text, View, StyleSheet, TextInput, FlatList, Pressable } from "react-native";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from "expo-router";
+import { getDatabase, push, ref, onValue } from 'firebase/database';
+import { app } from "../components/firebaseConfig";
 
 
 
 export default function RavintolaListaus() {
 
-    const addRestaurant = () => {
+    const database = getDatabase(app)
 
-    }
+
+    const [restaurants, setRestaurants] = useState([]);
+
+    useEffect(() => {
+        const restaurantsRef = ref(database, 'restaurants/');
+        onValue(restaurantsRef, (snapshot) => {
+            const data = snapshot.val();
+            console.log(data);
+            if (data) {
+                setRestaurants(Object.values(data));
+            } else {
+                setRestaurants([]);
+            }
+        })
+    }, []);
+
 
     return (
         <View style={styles.container}>
@@ -18,9 +35,17 @@ export default function RavintolaListaus() {
                         <Text>Add a restaurant to the list</Text>
                     </Pressable>
                 </Link>
-                <Text>This will have the list of the restaurants.</Text>
-                <Text>If you're logged in as admin, you can add restaurants here</Text>
+                <View style={{ flex: 1, paddingTop: 20 }}>
+                    <FlatList
+                        renderItem={({ item }) =>
+                            <View style={{ flex: 1, paddingTop: 20 }}>
+                                <Text style={{ fontSize: 18, fontStyle: 'bold' }}>{item.name}</Text>
+                                <Text style={{ fontSize: 18 }}>{item.address}</Text>
+                            </View>}
+                        data={restaurants} />
+                </View>
             </View>
+
             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", width: "100%" }}>
                 <Link href="/" asChild>
                     <Pressable>
@@ -33,7 +58,7 @@ export default function RavintolaListaus() {
                     </Pressable>
                 </Link>
             </View>
-        </View>
+        </View >
 
     )
 }

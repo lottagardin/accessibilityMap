@@ -17,8 +17,6 @@ export default function ProfilePage() {
                     <Text>{user.email}</Text>
                 </View>
 
-
-
                 <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", width: "100%" }}>
                     <Link href="/" asChild>
                         <Pressable>
@@ -48,6 +46,18 @@ export default function ProfilePage() {
                     <Link href="/registrationPage" asChild>
                         <Pressable>
                             <Text>Register User</Text>
+                        </Pressable>
+                    </Link>
+                </View>
+                <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", width: "100%" }}>
+                    <Link href="/" asChild>
+                        <Pressable>
+                            <Text>Map</Text>
+                        </Pressable>
+                    </Link>
+                    <Link href="/restaurantList" asChild>
+                        <Pressable>
+                            <Text>List of restaurants</Text>
                         </Pressable>
                     </Link>
                 </View>

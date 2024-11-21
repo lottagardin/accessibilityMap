@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { useState } from "react";
 import { Alert } from "react-native";
 import { router } from "expo-router";
+import { Link } from "expo-router";
 
 
 
@@ -48,6 +49,18 @@ export default function Registration() {
                 />
             </View>
             <Button onPress={register} title="Register user" />
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-evenly", width: "100%" }}>
+                <Link href="/" asChild>
+                    <Pressable>
+                        <Text>Map</Text>
+                    </Pressable>
+                </Link>
+                <Link href="/restaurantList" asChild>
+                    <Pressable>
+                        <Text>List of restaurants</Text>
+                    </Pressable>
+                </Link>
+            </View>
         </View>
     )
 }
