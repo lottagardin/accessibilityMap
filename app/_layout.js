@@ -9,6 +9,8 @@ export default function RootLayout() {
       <Stack.Screen name="signInPage" options={{ headerShown: false }} />
       <Stack.Screen name="registrationPage" options={{ headerShown: false }} />
       <Stack.Screen name="addRestaurant" options={{ headerShown: false }} />
+      <Stack.Screen name="restaurants/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="reviews/[id]" options={{ headerShown: false }} />
     </Stack>
   );
 }

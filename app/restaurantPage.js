@@ -1,1 +1,0 @@
-//This page will have the information on a specific restaurant and a link to the reviewpage where you can leave reviews

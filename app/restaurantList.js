@@ -1,8 +1,9 @@
-import { Text, View, StyleSheet, TextInput, FlatList, Pressable } from "react-native";
+import { Text, View, StyleSheet, FlatList, Pressable } from "react-native";
 import { useState, useEffect } from 'react';
 import { Link } from "expo-router";
-import { getDatabase, push, ref, onValue } from 'firebase/database';
+import { getDatabase, ref, onValue } from 'firebase/database';
 import { app } from "../components/firebaseConfig";
+
 
 
 
@@ -17,7 +18,6 @@ export default function RavintolaListaus() {
         const restaurantsRef = ref(database, 'restaurants/');
         onValue(restaurantsRef, (snapshot) => {
             const data = snapshot.val();
-            console.log(data);
             if (data) {
                 setRestaurants(Object.values(data));
             } else {
@@ -41,6 +41,12 @@ export default function RavintolaListaus() {
                             <View style={{ flex: 1, paddingTop: 20 }}>
                                 <Text style={{ fontSize: 18, fontStyle: 'bold' }}>{item.name}</Text>
                                 <Text style={{ fontSize: 18 }}>{item.address}</Text>
+                                <Text>{item.placeId}</Text>
+                                <Link href={{
+                                    pathname: './reviews/[id]',
+                                    params: { id: item.placeId }
+                                }}> <Text>Leave a review for the restaurant</Text>
+                                </Link>
                             </View>}
                         data={restaurants} />
                 </View>
