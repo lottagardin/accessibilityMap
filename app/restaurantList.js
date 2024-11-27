@@ -41,11 +41,11 @@ export default function RavintolaListaus() {
                             <View style={{ flex: 1, paddingTop: 20 }}>
                                 <Text style={{ fontSize: 18, fontStyle: 'bold' }}>{item.name}</Text>
                                 <Text style={{ fontSize: 18 }}>{item.address}</Text>
-                                <Text>{item.placeId}</Text>
+
                                 <Link href={{
-                                    pathname: './reviews/[id]',
+                                    pathname: './restaurants/[id]',
                                     params: { id: item.placeId }
-                                }}> <Text>Leave a review for the restaurant</Text>
+                                }}> <Text>See full irformation or leave a review</Text>
                                 </Link>
                             </View>}
                         data={restaurants} />

@@ -31,7 +31,7 @@ export default function AddRestaurant() {
 
     const add = () => {
         let query = `${name} ${city}`
-        console.log(query);
+
         if (name.length > 0 && city.length > 0) {
             fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${api_key}`)
                 .then(response => {
@@ -42,7 +42,7 @@ export default function AddRestaurant() {
                     return response.json();
                 })
                 .then(responseData => {
-                    console.log(responseData);
+
                     if (responseData.results.length > 0) {
                         const showRestaurant = (index) => {
                             const restaurant = responseData.results[index];
@@ -149,7 +149,7 @@ export default function AddRestaurant() {
 
     return (
         <View style={styles.container}>
-            <Text> Leave a new review</Text>
+            <Text> Leave a new restaurant</Text>
             <View style={styles.input}>
                 <Text>The name of the restaurant: </Text>
                 <TextInput

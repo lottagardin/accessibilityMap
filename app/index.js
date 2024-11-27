@@ -3,12 +3,30 @@ import { Link } from 'expo-router';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useState, useEffect } from 'react';
+import { app } from '../../components/firebaseConfig';
 
-
+//1) Hae ravintolat firebasesta
+//2) Vertaa ravintoloiden koordinaatteja käyttäjän koordinaatteihin
+//3) Laita ravintolat uuteen arrayhin etäisyyden mukaan käyttäjästä
+//4) Näytä ravintolat Flaslistana (koodin voi kopioida restaurantlistista)
 
 export default function Index() {
 
+  const database = getDatabase(app)
   const [location, setLocation] = useState(null);
+  const [restaurants, setRestaurants] = useState([]);
+
+  useEffect(() => {
+    const restaurantsRef = ref(database, 'restaurants/');
+    onValue(restaurantsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setRestaurants(Object.values(data));
+      } else {
+        setRestaurants([]);
+      }
+    })
+  }, []);
 
   useEffect(() => {
     (async () => {
