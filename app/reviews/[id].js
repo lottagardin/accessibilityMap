@@ -28,8 +28,8 @@ export default function addReview() {
             const data = snapshot.val();
             if (data) {
                 const restaurantsArray = Object.keys(data).map(key => ({
-                    ...data[key],   // Spread the restaurant data
-                    key: key        // Add the Firebase key to the restaurant object
+                    ...data[key],
+                    key: key
                 }));
 
                 setRestaurants(restaurantsArray);

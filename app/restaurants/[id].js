@@ -114,7 +114,7 @@ export default function restaurantPage() {
     } else {
         return (
             <View style={styles.container}>
-                <Text>haloo</Text>
+
                 <Text>Name: {restaurant.name}</Text>
                 <Text>Address: {restaurant.address}</Text>
                 <Text>Rating: {restaurant.overallRating}</Text>
