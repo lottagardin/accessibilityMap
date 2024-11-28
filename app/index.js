@@ -8,6 +8,7 @@ import { app } from "../components/firebaseConfig";
 import { getDatabase, ref, onValue } from 'firebase/database';
 
 
+
 //5) Käyttäjälle textfield, johon voi syöttää kaupungin --> koordinaatit vaihtuu kaupungin koordinaateiksi
 
 export default function Index() {
@@ -159,6 +160,7 @@ export default function Index() {
           title='Your location'
         />
 
+
         {shownRestaurants.map((restaurant) => (
           <Marker
             coordinate={{
@@ -167,6 +169,7 @@ export default function Index() {
             }}
             title={restaurant.restaurantName}
           />
+
         ))}
       </MapView>
 

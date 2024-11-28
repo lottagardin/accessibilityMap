@@ -18,9 +18,13 @@ export default function Registration() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        email: "",
+        registrationDate: new Date(Date.now()).toLocaleDateString()
+    });
 
     const register = () => {
+        setUser({ email: email, registrationDate: new Date(Date.now()).toLocaleDateString() });
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -36,7 +40,7 @@ export default function Registration() {
                 Alert.alert(errorMessage);
             });
 
-        push(ref(database, 'users/'), email);
+        push(ref(database, 'users'), user);
 
     }
 

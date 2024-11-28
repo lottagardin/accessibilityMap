@@ -1,13 +1,19 @@
 import { useLocalSearchParams, Link } from 'expo-router';
-import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Pressable, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { getDatabase, ref, onValue, push } from 'firebase/database';
 import { app } from '../../components/firebaseConfig';
 import MapView, { Marker } from 'react-native-maps';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { AuthProvider } from '../../components/authProvider';
+import { router } from 'expo-router';
+
 
 
 export default function restaurantPage() {
 
+
+    const user = AuthProvider();
     const database = getDatabase(app);
 
     const { id } = useLocalSearchParams();
@@ -15,9 +21,10 @@ export default function restaurantPage() {
     const [restaurants, setRestaurants] = useState([]);
     const [userAverage, setUserAverage] = useState("No user reviews yet");
     const [reviews, setReviews] = useState([]);
+    const [users, setUsers] = useState([]);
 
 
-
+    //Hakee ravintolat tietokannasta (vain ekalla renderöinnillä)
     useEffect(() => {
         const restaurantsRef = ref(database, 'restaurants/');
         onValue(restaurantsRef, (snapshot) => {
@@ -30,8 +37,10 @@ export default function restaurantPage() {
         });
     }, []);
 
+
+    // Hakee kyseisen ravintolan tiedot parametrina passatun id:n perusteella 
+    //aina kun id-numero tai ravintolat -lista muuttuu (eli kun edellinen useEffect on tapahtunut)
     useEffect(() => {
-        console.log(restaurants);
         if (id && restaurants.length > 0) {
             const foundRestaurant = restaurants.find(
                 (item) => item.placeId === id
@@ -42,34 +51,90 @@ export default function restaurantPage() {
 
 
 
-
+    //Jos yksittäisellä ravintolalla on arvosteluja, täyttää arvostelut -usestaten niillä 
+    //Renderöidään aina ravintolan päivittyessä
     useEffect(() => {
-
-
-
         if (restaurant.reviews) {
-            setReviews(Object.values(restaurant.reviews));
-
+            setReviews(restaurant.reviews);
         }
-
     }, [restaurant]);
 
 
+    //Jos ravintolalla on arvosteluja, laskee käyttäjien antamien arvosanojen keskiarvon
+    //Renderöityy aina, kun arvostelut -usestate päivittyy
     useEffect(() => {
         let totalRatings = 0;
 
-        if (reviews.length > 0) {
+        const reviewsArray = Object.values(reviews);
 
-            for (let i = 0; i < reviews.length; i++) {
-                const review = reviews[i];
+        if (reviewsArray.length > 0) {
+            for (let i = 0; i < reviewsArray.length; i++) {
+                const review = reviewsArray[i];
                 totalRatings += review.userRating;
             }
-            let averageRating = totalRatings / reviews.length;
+            let averageRating = totalRatings / reviewsArray.length;
             setUserAverage(averageRating.toString());
         }
     }, [reviews]);
 
-    if (restaurant.reviews) {
+    //Hakee käyttäjät tietokannasta, renderöidään vain kerran
+    useEffect(() => {
+        const usersRef = ref(database, 'users/');
+        onValue(usersRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                const usersArray = Object.keys(data).map(key => ({
+                    ...data[key],
+                    key: key
+                }));
+
+                setUsers(usersArray);
+            } else {
+                setUsers([]);
+            }
+        });
+    }, []);
+
+    //Lisää kyseisen ravintolan kirjautuneen käyttäjän suosikkeihin tietokantaan
+    const addToFavorites = () => {
+
+        // Check if restaurant data is available
+        if (!restaurant || Object.keys(restaurant).length === 0) {
+            Alert.alert("Restaurant data is missing.");
+            return;
+        }
+
+
+        if (user) {
+            // Ensure user data is present
+            const existingUser = users.find((existing) => existing.email === user.email);
+
+            if (existingUser) {
+                // Push to favorites only if restaurant exists
+
+                console.log("käyttäjäavain", user.key);
+                const favoriteRef = ref(database, `users/${existingUser.key}/favorites`);
+                push(favoriteRef, restaurant)
+                    .then(() => {
+                        Alert.alert("Restaurant added to your favorites!");
+                    })
+                    .catch((error) => {
+                        Alert.alert("Error adding to favorites:", error.message);
+                    });
+            } else {
+                Alert.alert("User not found in the database.");
+            }
+        } else {
+            Alert.alert("You need to sign in or register to add restaurants to your favorites");
+            router.replace('/profilePage');
+        }
+    };
+
+
+
+
+
+    if (reviews) {
         return (
             <View style={styles.container}>
                 {restaurant.location ? (
@@ -107,19 +172,24 @@ export default function restaurantPage() {
                             params: { id: restaurant.placeId }
                         }}> <Text style={{ fontSize: 15, textAlign: 'center', color: '#717171' }}>Leave a review for the restaurant</Text>
                         </Link>
+                        <Pressable onPress={addToFavorites}><Text>Add to favorites</Text></Pressable>
                     </View>
 
-                    <Text style={{ fontSize: 25, textAlign: 'center' }}>User reviews:</Text>
-                    <View style={{ flex: 1, paddingTop: 20 }}>
+                    <Text style={{ fontSize: 25, textAlign: 'center', paddingTop: 25 }}>User reviews:</Text>
+                    <View style={{ flex: 1 }}>
                         <FlatList
-                            renderItem={({ item }) => <View style={{ flex: 1, paddingTop: 20 }}>
-                                <Text style={{ fontSize: 18, fontStyle: 'bold', textAlign: 'center' }}>{item.text}</Text>
-                                <Text style={{ fontSize: 18, textAlign: 'center' }}>{item.author}</Text>
-                                <Text style={{ fontSize: 18, textAlign: 'center' }}>{item.timestamp}</Text>
-                                <Text style={{ fontSize: 18, textAlign: 'center' }}>Rating:{item.userRating}</Text>
+                            renderItem={({ item }) => (
+                                <View style={{ flex: 1, paddingTop: 20 }}>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>{item.text}</Text>
+                                    <Text style={{ fontSize: 18, textAlign: 'center' }}>{item.author}</Text>
+                                    <Text style={{ fontSize: 18, textAlign: 'center' }}>{item.timestamp}</Text>
+                                    <Text style={{ fontSize: 18, textAlign: 'center' }}>Rating: {item.userRating}</Text>
+                                </View>
+                            )}
+                            data={Object.values(reviews)} // Convert object to array
+                        />
 
-                            </View>}
-                            data={reviews} />
+
                     </View>
 
 
@@ -181,6 +251,7 @@ export default function restaurantPage() {
                             params: { id: restaurant.placeId }
                         }}> <Text style={{ fontSize: 15, textAlign: 'center', color: '#717171' }}>Leave a review for the restaurant</Text>
                         </Link>
+                        <Pressable onPress={addToFavorites}><Text>Add to favorites</Text></Pressable>
                     </View>
                 </View>
 
