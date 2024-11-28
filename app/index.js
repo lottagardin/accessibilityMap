@@ -171,21 +171,19 @@ export default function Index() {
       </MapView>
 
       <View style={{ flex: 2, paddingTop: 10 }}>
-        <Text>Find accessible restaurants in another city: </Text>
+        <Text style={{ fontSize: 18, fontStyle: 'bold' }}>Find accessible restaurants in another city: </Text>
 
-        {/* Center the inputs and buttons */}
+
         <View style={{ alignItems: 'center' }}>
           <TextInput
             onChangeText={text => setCity(text)}
             value={city}
-            style={styles.input} // Styling for the TextInput
+            style={styles.input}
             placeholder="Enter a city"
           />
-          <Button
-            onPress={changeCity}
-            title="Search"
-            color="#841584"
-          />
+          <Pressable style={styles.button} onPress={changeCity}>
+            <Text>Search</Text>
+          </Pressable>
         </View>
       </View>
 
@@ -194,14 +192,21 @@ export default function Index() {
         <FlatList
           renderItem={({ item }) =>
             <View style={{ flex: 1, paddingTop: 20 }}>
-              <Text style={{ fontSize: 18, fontStyle: 'bold' }}>{item.restaurantName}</Text>
-              <Text style={{ fontSize: 18 }}>{item.restaurantAddress}</Text>
+              <Text style={{ fontSize: 18, fontStyle: 'bold', textAlign: 'center' }}>{item.restaurantName}</Text>
+              <Text style={{ fontSize: 18, textAlign: 'center' }}>{item.restaurantAddress}</Text>
 
-              <Link href={{
-                pathname: './restaurants/[id]',
-                params: { id: item.restaurantId }
-              }}> <Text>See full information or leave a review</Text>
-              </Link>
+              <View style={{ alignItems: 'center', width: '100%' }}>
+                <Link
+                  href={{
+                    pathname: './restaurants/[id]',
+                    params: { id: item.restaurantId },
+                  }}
+                >
+                  <Text style={{ fontSize: 15, textAlign: 'center', color: '#717171' }}>
+                    See full information or leave a review
+                  </Text>
+                </Link>
+              </View>
             </View>}
           data={shownRestaurants} />
       </View>
@@ -210,12 +215,12 @@ export default function Index() {
 
       <View style={styles.bottomNavigation}>
         <Link href="/restaurantList" asChild>
-          <Pressable>
+          <Pressable style={styles.button}>
             <Text>A list of the restaurants</Text>
           </Pressable>
         </Link>
         <Link href="/profilePage" asChild>
-          <Pressable>
+          <Pressable style={styles.button}>
             <Text>Profile page</Text>
           </Pressable>
         </Link>
@@ -227,26 +232,38 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ededed',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 100,
+    paddingTop: 50,
   },
   bottomNavigation: {
-    flex: 2,
+    backgroundColor: 'grey',
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-evenly",
     width: "100%",
     alignItems: 'center'
   },
   input: {
+    backgroundColor: 'white',
     height: 40,
     margin: 12,
     width: "100%",
-    borderWidth: 1,
-    padding: 20,
-    flexDirection: "row",
-    paddingTop: 10
+    borderWidth: 4,
+    borderColor: 'grey',
+    textAlign: 'center'
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    elevation: 3,
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'grey'
   }
 });
 
