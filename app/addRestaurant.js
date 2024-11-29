@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, Text, TextInput, View, Button, FlatList, Alert } from 'react-native';
-import { getDatabase, push, remove, ref, onValue } from "firebase/database";
+import { useState } from 'react';
+import { StyleSheet, Text, TextInput, View, Button, Alert } from 'react-native';
+import { getDatabase, push, ref, onValue } from "firebase/database";
 import { app } from '../components/firebaseConfig';
 import { router } from 'expo-router';
 import { Link } from 'expo-router';
@@ -147,21 +147,6 @@ export default function AddRestaurant() {
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     return (

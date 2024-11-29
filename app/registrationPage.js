@@ -23,6 +23,7 @@ export default function Registration() {
         registrationDate: new Date(Date.now()).toLocaleDateString()
     });
 
+    //Rekisteröi uuden käyttäjän
     const register = () => {
         setUser({ email: email, registrationDate: new Date(Date.now()).toLocaleDateString() });
         const auth = getAuth();

@@ -1,7 +1,7 @@
 import { useLocalSearchParams, Link } from 'expo-router';
 import { View, Text, StyleSheet, Pressable, TextInput, Alert, Button } from 'react-native';
 import { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue, update, push } from 'firebase/database';
+import { getDatabase, ref, onValue, push } from 'firebase/database';
 import { app } from '../../components/firebaseConfig';
 import { router } from 'expo-router';
 
@@ -59,7 +59,7 @@ export default function addReview() {
         else {
             const reviewsRef = ref(database, `restaurants/${restaurant.key}/reviews`);
 
-            console.log('Id:', id);
+
             push(reviewsRef, review);
             Alert.alert('Review was added successfully!')
             router.replace('/restaurantList')

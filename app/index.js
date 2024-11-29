@@ -20,7 +20,7 @@ export default function Index() {
   const [restaurants, setRestaurants] = useState([]);
 
   const [shownRestaurants, setShownRestaurants] = useState([]);
-  const [distance, setDistance] = useState(30000);
+  const [distance, setDistance] = useState(30000); //Käyttäjä voisi valita itse etäisyyden (en ehtinyt tekemään)
   const [city, setCity] = useState("");
   const [mapLocation, setMapLocation] = useState({
     latitude: 0,
@@ -121,7 +121,6 @@ export default function Index() {
         .then(responseData => {
           if (responseData.results && responseData.results.length > 0) {
             const geometry = responseData.results[0].geometry;
-            console.log(geometry);
 
 
             setMapLocation({

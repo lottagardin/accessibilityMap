@@ -2,17 +2,14 @@ import { Text, View, StyleSheet, Pressable, FlatList, Alert } from "react-native
 import { Link } from "expo-router";
 import { AuthProvider } from "../components/authProvider";
 import { app } from "../components/firebaseConfig";
-import { getDatabase, ref, onValue, remove } from 'firebase/database';
+import { getDatabase, ref, onValue } from 'firebase/database';
 import { useEffect, useState } from "react";
 
 
 
 //Tänne olin tekemässä funktiota, jonka avulla voidaan poistaa listasta ravintola, mutta en saanut sitä valmiiksi ajoissa. 
 
-//<Pressable onPress={() => {
-//console.log("PlaceId to remove:", item.placeId);
-//remove(item.placeId)
-//}}>
+//<Pressable onPress={() => {remove(item.placeId)}}>
 //<Text>Remove from favorites</Text>
 //</Pressable>
 
@@ -73,10 +70,6 @@ export default function ProfilePage() {
 
 
 
-    useEffect(() => {
-
-    }, [users, favorites, user])
-
     const remove = (placeId) => {
 
         const favoritesArray = Object.keys(favoriteObjects).map(key => ({
@@ -84,14 +77,13 @@ export default function ProfilePage() {
             key: key
         }));
 
-        console.log("placeId?????", placeId);
-        console.log('userKey', userKey);
+
         const deletedRestaurant = favoritesArray.find(restaurant => restaurant.placeId === placeId);
         if (deletedRestaurant) {
             const deletedKey = deletedRestaurant.key;
 
             if (deletedKey, userKey) {
-                console.log('deletedKey', deletedKey)
+
                 remove(ref(database, `users/${userKey}/favorites/${deletedKey}`));
                 Alert.alert("Restaurant removed from favorites!")
             } else if (!deletedKey) {

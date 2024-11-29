@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { getDatabase, ref, onValue, push } from 'firebase/database';
 import { app } from '../../components/firebaseConfig';
 import MapView, { Marker } from 'react-native-maps';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { AuthProvider } from '../../components/authProvider';
 import { router } from 'expo-router';
 
