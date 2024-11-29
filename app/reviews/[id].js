@@ -94,40 +94,30 @@ export default function addReview() {
                 </View>
 
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={{ fontSize: 18, textAlign: 'center' }}>Your rating 1-5: {review.userRating}</Text>
+                    <Text style={{ fontSize: 18, textAlign: 'center' }}>Your rating 1-5:</Text>
 
 
                     <View style={styles.ratingButtons}>
-                        <Pressable style={styles.button}
-                            onPress={() => {
-                                setReview({ ...review, userRating: 1 });
-                            }}>
-                            <Text style={{ fontSize: 15 }}>1</Text>
-                        </Pressable>
-                        <Pressable style={styles.button}
-                            onPress={() => {
-                                setReview({ ...review, userRating: 2 });
-                            }}>
-                            <Text style={{ fontSize: 15 }}>2</Text>
-                        </Pressable>
-                        <Pressable style={styles.button}
-                            onPress={() => {
-                                setReview({ ...review, userRating: 3 });
-                            }}>
-                            <Text style={{ fontSize: 15 }}>3</Text>
-                        </Pressable>
-                        <Pressable style={styles.button}
-                            onPress={() => {
-                                setReview({ ...review, userRating: 4 });
-                            }}>
-                            <Text style={{ fontSize: 15 }}>4</Text>
-                        </Pressable>
-                        <Pressable style={styles.button}
-                            onPress={() => {
-                                setReview({ ...review, userRating: 5 });
-                            }}>
-                            <Text style={{ fontSize: 15 }}>5</Text>
-                        </Pressable>
+
+
+                        {[1, 2, 3, 4, 5].map((rating) => (
+                            <Pressable
+                                key={rating}
+                                style={[
+                                    styles.button,
+                                    review.userRating === rating && styles.selectedButton,
+                                ]}
+                                onPress={() => setReview({ ...review, userRating: rating })}
+                            >
+                                <Text
+                                    style={[
+                                        styles.text,
+                                        review.userRating === rating && styles.selectedText,
+                                    ]}
+                                >{rating}</Text>
+                            </Pressable>
+                        ))}
+
 
                     </View>
                 </View>
@@ -187,14 +177,12 @@ const styles = StyleSheet.create({
     },
     input: {
         backgroundColor: 'white',
-        height: '100%',
-        minHeight: 40,
-        maxHeight: 40,
+        height: 40,
         margin: 12,
         width: "100%",
         borderWidth: 4,
         borderColor: 'grey',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     button: {
         alignItems: 'center',
@@ -224,6 +212,20 @@ const styles = StyleSheet.create({
         width: "100%",
         borderWidth: 4,
         borderColor: 'grey',
-        textAlign: 'center'
-    }
+        textAlign: 'center',
+        textAlignVertical: 'top'
+    },
+
+    text: {
+        color: 'black',
+    },
+
+    selectedText: {
+        color: 'white',
+    },
+
+    selectedButton: {
+        backgroundColor: 'grey',
+        color: 'white',
+    },
 })

@@ -14,6 +14,7 @@ export default function RavintolaListaus() {
 
     const [restaurants, setRestaurants] = useState([]);
 
+    //Hakee ravintolat tietokannasta
     useEffect(() => {
         const restaurantsRef = ref(database, 'restaurants/');
         onValue(restaurantsRef, (snapshot) => {

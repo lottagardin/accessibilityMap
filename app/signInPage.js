@@ -14,7 +14,7 @@ export default function Registration() {
     const [password, setPassword] = useState("");
     const [user, setUser] = useState(null);
 
-    const register = () => {
+    const signIn = () => {
         const auth = getAuth();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -60,7 +60,7 @@ export default function Registration() {
                     </View>
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Button onPress={register} title="Sign In" />
+                    <Button onPress={signIn} title="Sign In" />
                 </View>
             </View>
 

@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, Pressable, FlatList, TextInput, KeyboardAvoidingView, Button, Platform } from "react-native";
-import { Link } from 'expo-router';
-import MapView, { Marker } from 'react-native-maps';
+import { Link, router } from 'expo-router';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useState, useEffect } from 'react';
 import getDistance from 'geolib/es/getDistance';
@@ -9,7 +9,7 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 
 
 
-//5) Käyttäjälle textfield, johon voi syöttää kaupungin --> koordinaatit vaihtuu kaupungin koordinaateiksi
+
 
 export default function Index() {
 
@@ -57,7 +57,7 @@ export default function Index() {
 
 
 
-  //Map through the restaurants and add every restaurant first to the ShownRestaurant usestate and then add it to the shownRestaurant array
+
   useEffect(() => {
     if (location) {
       const updatedRestaurants = restaurants
@@ -136,13 +136,10 @@ export default function Index() {
   }
 
 
-
-
-
   return (
     <View style={styles.container}>
       <MapView
-        style={{ width: '100%', height: '40%' }}
+        style={{ width: '100%', height: '30%' }}
         region={{
           latitude: mapLocation.latitude,
           longitude: mapLocation.longitude,
@@ -161,6 +158,8 @@ export default function Index() {
         />
 
 
+
+
         {shownRestaurants.map((restaurant) => (
           <Marker
             coordinate={{
@@ -168,16 +167,32 @@ export default function Index() {
               longitude: restaurant.longitude
             }}
             title={restaurant.restaurantName}
-          />
+          >
+
+            <Callout >
+              <Link
+                href={{
+                  pathname: '/restaurants/[id]',
+                  params: { id: restaurant.restaurantId },
+                }}
+                style={{ alignItems: 'center', justifyContent: 'center' }}
+              >
+                <Text>
+                  {restaurant.restaurantName}
+                </Text>
+              </Link>
+
+            </Callout>
+          </Marker>
 
         ))}
       </MapView>
 
-      <View style={{ flex: 2, paddingTop: 10 }}>
-        <Text style={{ fontSize: 18, fontStyle: 'bold' }}>Find accessible restaurants in another city: </Text>
+      <View style={{ padding: 10, backgroundColor: 'grey', width: '100%', alignItems: 'center' }}>
+        <Text style={{ fontSize: 20, fontStyle: 'bold', paddingTop: 15, color: 'white' }}>Find accessible restaurants in another city: </Text>
 
 
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: 'center', flexDirection: 'row', maxWidth: '100%' }}>
           <TextInput
             onChangeText={text => setCity(text)}
             value={city}
@@ -191,21 +206,21 @@ export default function Index() {
       </View>
 
 
-      <View style={{ flex: 5 }}>
+      <View style={{ flex: 5, paddingBottom: 10, }}>
         <FlatList
           renderItem={({ item }) =>
             <View style={{ flex: 1, paddingTop: 20 }}>
               <Text style={{ fontSize: 18, fontStyle: 'bold', textAlign: 'center' }}>{item.restaurantName}</Text>
-              <Text style={{ fontSize: 18, textAlign: 'center' }}>{item.restaurantAddress}</Text>
+              <Text style={{ fontSize: 18, textAlign: 'center', paddingBottom: 7 }}>{item.restaurantAddress}</Text>
 
               <View style={{ alignItems: 'center', width: '100%' }}>
-                <Link
+                <Link style={styles.button}
                   href={{
                     pathname: './restaurants/[id]',
                     params: { id: item.restaurantId },
                   }}
                 >
-                  <Text style={{ fontSize: 15, textAlign: 'center', color: '#717171' }}>
+                  <Text style={{ fontSize: 15, textAlign: 'center', }}>
                     See full information or leave a review
                   </Text>
                 </Link>
@@ -252,7 +267,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: 40,
     margin: 12,
-    width: "100%",
+    width: "60%",
     borderWidth: 4,
     borderColor: 'grey',
     textAlign: 'center'
@@ -266,7 +281,8 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: 'white',
     borderWidth: 2,
-    borderColor: 'grey'
+    borderColor: 'grey',
+    overflow: 'hidden'
   }
 });
 

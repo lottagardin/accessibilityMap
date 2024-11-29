@@ -98,20 +98,16 @@ export default function restaurantPage() {
     //Lisää kyseisen ravintolan kirjautuneen käyttäjän suosikkeihin tietokantaan
     const addToFavorites = () => {
 
-        // Check if restaurant data is available
-        if (!restaurant || Object.keys(restaurant).length === 0) {
-            Alert.alert("Restaurant data is missing.");
+        if (!restaurant) {
+            Alert.alert("No restaurant data");
             return;
         }
 
 
         if (user) {
-            // Ensure user data is present
             const existingUser = users.find((existing) => existing.email === user.email);
 
             if (existingUser) {
-                // Push to favorites only if restaurant exists
-
                 console.log("käyttäjäavain", user.key);
                 const favoriteRef = ref(database, `users/${existingUser.key}/favorites`);
                 push(favoriteRef, restaurant)
@@ -134,7 +130,7 @@ export default function restaurantPage() {
 
 
 
-    if (reviews) {
+    if (restaurant.reviews) {
         return (
             <View style={styles.container}>
                 {restaurant.location ? (
@@ -161,18 +157,19 @@ export default function restaurantPage() {
 
 
                 <View style={{ flex: 11, width: "100%" }}>
-                    <Text style={{ fontSize: 30, fontStyle: 'bold', textAlign: 'center' }}>{restaurant.name}</Text>
+
+                    <Text style={{ fontSize: 30, fontStyle: 'bold', textAlign: 'center', paddingTop: 20, paddingBottom: 10 }}>{restaurant.name}</Text>
                     <Text style={{ fontSize: 18, textAlign: 'center' }}>{restaurant.address}</Text>
                     <Text style={{ fontSize: 18, textAlign: 'center' }}>Rating: {restaurant.overallRating}</Text>
-                    <Text style={{ fontSize: 18, textAlign: 'center' }}>Average user rating: {userAverage}</Text>
+                    <Text style={{ fontSize: 18, textAlign: 'center', paddingBottom: 10 }}>Average user rating: {userAverage}</Text>
 
-                    <View style={{ alignItems: 'center', width: '100%' }}>
+                    <View style={{ alignItems: 'center', width: '100%', flexDirection: 'row', justifyContent: 'space-around' }}>
                         <Link href={{
                             pathname: '/reviews/[id]',
                             params: { id: restaurant.placeId }
                         }}> <Text style={{ fontSize: 15, textAlign: 'center', color: '#717171' }}>Leave a review for the restaurant</Text>
                         </Link>
-                        <Pressable onPress={addToFavorites}><Text>Add to favorites</Text></Pressable>
+                        <Pressable onPress={addToFavorites}><Text style={{ fontSize: 15, textAlign: 'center', color: '#717171' }}>Add to favorites</Text></Pressable>
                     </View>
 
                     <Text style={{ fontSize: 25, textAlign: 'center', paddingTop: 25 }}>User reviews:</Text>
@@ -245,7 +242,7 @@ export default function restaurantPage() {
                     <Text style={{ fontSize: 30, fontStyle: 'bold', textAlign: 'center' }}>{restaurant.name}</Text>
                     <Text style={{ fontSize: 18, textAlign: 'center' }}>{restaurant.address}</Text>
                     <Text style={{ fontSize: 18, textAlign: 'center' }}>Rating: {restaurant.overallRating}</Text>
-                    <View style={{ alignItems: 'center', width: '100%' }}>
+                    <View style={{ alignItems: 'center', width: '100%', flexDirection: "row", justifyContent: 'space-around' }}>
                         <Link href={{
                             pathname: '/reviews/[id]',
                             params: { id: restaurant.placeId }
