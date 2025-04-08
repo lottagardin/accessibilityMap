@@ -1,50 +1,20 @@
-# Welcome to your Expo app 👋
+# Restaurant Review App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile application built with **React Native**, **Expo Router**, and various Firebase services, designed for users to view, save, and leave reviews for restaurants that are accessible in Finland. The app also integrates **Google Places API** and **Google Geocoding API** to fetch restaurant details and locations.
 
-## Get started
+## Technologies Used
 
-1. Install dependencies
+- **React Native**: A framework for building native mobile applications using JavaScript and React.
+- **Expo Router**: A routing solution for **Expo** apps, used to handle navigation and routing within the app.
+- **Firebase Realtime Database**: A cloud-hosted NoSQL database that allows syncing of data between users in real-time.
+- **Firebase Authentication**: A service that helps with authenticating users via various login methods (email/password, Google, etc.).
+- **Google Places API**: A service from Google to fetch data about places (restaurants in this case), including details like name, address, and location.
+- **Google Geocoding API**: Converts addresses into geographical coordinates (latitude and longitude), which is used for mapping restaurant locations.
 
-   ```bash
-   npm install
-   ```
+## Features
 
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **User Authentication**: Users can sign up and log in to the app using their email/password via **Firebase Authentication**.
+- **Favorite Restaurants**: Users can view and save restaurants as favorites, and delete them from the list. All favorites are stored in **Firebase Realtime Database**.
+- **Restaurant Search**: Integrated with the **Google Places API** to allow users to search and get details about nearby restaurants, including address, name, and location.
+- **Location Mapping**: Utilizes the **Google Geocoding API** to convert restaurant addresses into geographical coordinates, which are then used for displaying the restaurant locations on the map.
+- **Review System**: Users can add and view reviews for each restaurant.

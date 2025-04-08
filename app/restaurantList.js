@@ -52,7 +52,7 @@ export default function RavintolaListaus() {
                                     <Link href={{
                                         pathname: './restaurants/[id]',
                                         params: { id: item.placeId }
-                                    }}> <Text style={{ fontSize: 15, textAlign: 'center', color: '#717171' }}>See full irformation or leave a review</Text>
+                                    }}> <Text style={{ fontSize: 15, textAlign: 'center', color: '#717171' }}>See full information or leave a review</Text>
                                     </Link>
                                 </View>
                             </View>}
